@@ -12,6 +12,7 @@
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "nodev";
   boot.loader.grub.efiSupport = true;
+boot.loader.grub.theme = pkgs.catppucin-grub;
   boot.loader.efi.canTouchEfiVariables = true;  
 
   # Use latest kernel.
