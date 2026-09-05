@@ -1,6 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
 
@@ -10,23 +7,19 @@
       ./hardware-configuration.nix
     ];
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Bootloader
+  boot.loader.systemd-boot.enable = false;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "nodev";
+  boot.loader.grub.efiSupport = true;
+  boot.loader.efi.canTouchEfiVariables = true;  
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Enable networking
+  networking.hostName = "nixos";
   networking.networkmanager.enable = true;
-
-  # Set your time zone.
   time.timeZone = "Europe/Rome";
-
-  # Select internationalisation properties.
   i18n.defaultLocale = "it_IT.UTF-8";
 
   i18n.extraLocaleSettings = {
@@ -134,20 +127,22 @@
   tela-icon-theme
   gnome-browser-connector
   gnome-tweaks
-  # Estensioni
+  # Estensioni ottime
   gnomeExtensions.dash-to-dock
   gnomeExtensions.dash-to-panel
   gnomeExtensions.user-themes
-  gnomeExtensions.lan-ip-address
   gnomeExtensions.clipboard-indicator
+  gnomeExtensions.open-bar
+  # Estensioni opzionali
+  gnomeExtensions.lan-ip-address
   gnomeExtensions.vitals
   ];
   
   # Rimuovi pacchetti gnome inutili
   environment.gnome.excludePackages =  with pkgs; [
-  firefox         
-  epiphany      
-  seahorse		
+  firefox            
+  epiphany        
+  seahorse	
   yelp		
   gnome-system-monitor
   gnome-connections
@@ -175,8 +170,9 @@
 
       "org/gnome/shell" = {      
 	 enabled-extensions = [
-	 	#"dash-to-panel@jderose9.github.com" # ABILITA DASH TO PANEL
-	  	"dash-to-dock@micxgx.gmail.com"  # ABILITA DASH TO DOCK
+	 	#"dash-to-panel@jderose9.github.com"
+	  	"dash-to-dock@micxgx.gmail.com"
+	  	"openbar@neuromorph"
 	  	"user-theme@gnome-shell-extensions.gcampax.github.com"
 	  ];
       };
@@ -193,5 +189,4 @@
 
 
   system.stateVersion = "26.05";
-
 }
