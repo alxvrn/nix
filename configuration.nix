@@ -11,9 +11,8 @@
     ];
 
   # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -125,14 +124,12 @@
   # Utilità
   fastfetch
   resources
-  #btop
   # Programmi
   brave
   localsend
   krita
   onlyoffice-desktopeditors
   # Personalizzazione
-  #rewaita #nixos ha versione troppo vecchia
   bibata-cursors
   tela-icon-theme
   gnome-browser-connector
@@ -148,10 +145,10 @@
   
   # Rimuovi pacchetti gnome inutili
   environment.gnome.excludePackages =  with pkgs; [
-  firefox               # si pechè tema sballato
-  epiphany         	# browser squallido
-  seahorse		# gestore password
-  yelp			# help
+  firefox         
+  epiphany      
+  seahorse		
+  yelp		
   gnome-system-monitor
   gnome-connections
   gnome-photos
@@ -170,7 +167,6 @@
   
   programs.dconf.profiles.user.databases = [
   {
-    lockAll = false;
     settings = {
       
       "org/gnome/desktop/wm/preferences" = {
@@ -179,8 +175,8 @@
 
       "org/gnome/shell" = {      
 	 enabled-extensions = [
-	 	"dash-to-panel@jderose9.github.com" # ABILITA DASH TO PANEL
-	  	#"dash-to-dock@micxgx.gmail.com"  # ABILITA DASH TO DOCK
+	 	#"dash-to-panel@jderose9.github.com" # ABILITA DASH TO PANEL
+	  	"dash-to-dock@micxgx.gmail.com"  # ABILITA DASH TO DOCK
 	  	"user-theme@gnome-shell-extensions.gcampax.github.com"
 	  ];
       };
@@ -189,7 +185,6 @@
         color-scheme = "prefer-dark";
         icon-theme = "Tela";
         cursor-theme = "Bibata-Modern-Ice";
-        shell-theme = "Rewaita";
         };
       
       };
@@ -198,4 +193,5 @@
 
 
   system.stateVersion = "26.05";
+
 }
