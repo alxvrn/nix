@@ -12,7 +12,7 @@
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "nodev";
   boot.loader.grub.efiSupport = true;
-  boot.loader.grub.theme = pkgs.catppucin-grub;
+  boot.loader.grub.theme = pkgs.catppuccin-grub;
   boot.loader.efi.canTouchEfiVariables = true;  
 
   # Use latest kernel.
@@ -69,9 +69,7 @@
     isNormalUser = true;
     description = "alex";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-    #  thunderbird
-    ];
+    packages = with pkgs; [ ];
   };
 
   # Allow unfree packages
@@ -80,49 +78,24 @@
   # Rimuovo XTerm
   services.xserver.excludePackages = [pkgs.xterm];
   
-  # Abilito servizio flatpak
   services.flatpak.enable = true;
   
-  # Aggiungo repository flathub
-  systemd.services.flatpak-flathub = {
-    description = "Aggiunge il repository Flathub a Flatpak";
-    wantedBy = [ "multi-user.target" ];
-    wants = [ "network-online.target" ];
-    after = [ "network-online.target" ];
-
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart =
-        "${pkgs.flatpak}/bin/flatpak remote-add --if-not-exists --system flathub https://dl.flathub.org/repo/flathub.flatpakrepo";
-    };
-  };
-  
-  # Installazione automatica del tema Rewaita
-  systemd.services.flatpak-rewaita = {
-    description = "Installa il tema Rewaita da Flathub (Flatpak)";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "network-online.target" "flatpak.service" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = ''
-        ${pkgs.flatpak}/bin/flatpak install -y --system flathub io.github.swordpuffin.rewaita
-      '';
-      RemainAfterExit = true;
-    };
-  };
-
-
   # List packages installed in system profile. To search, run:   nix search ...
   environment.systemPackages = with pkgs; [
   # Utilità
+  git
+  flatpak
+  bazaar
   fastfetch
   resources
+  python3
   # Programmi
   brave
   localsend
   krita
   onlyoffice-desktopeditors
+  bottles
+  virtualbox
   # Personalizzazione
   bibata-cursors
   tela-icon-theme
@@ -145,6 +118,7 @@
   epiphany        
   seahorse	
   yelp		
+  gnome-software
   gnome-system-monitor
   gnome-connections
   gnome-photos
@@ -158,12 +132,15 @@
   gnome-music
   gnome-weather
   ];
-  
-  
-  
+   
+    
   programs.dconf.profiles.user.databases = [
   {
     settings = {
+    
+      "org/gnome/desktop/wm/keybindings" = {
+        close = [ "<Super>Q" ];
+      };
       
       "org/gnome/desktop/wm/preferences" = {
         button-layout = "appmenu:minimize,maximize,close";
