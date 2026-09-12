@@ -94,7 +94,6 @@
   localsend
   krita
   onlyoffice-desktopeditors
-  bottles
   virtualbox
   # Personalizzazione
   bibata-cursors
